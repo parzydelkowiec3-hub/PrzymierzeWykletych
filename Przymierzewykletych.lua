@@ -1,5 +1,5 @@
 local Przymierzewykletych = {}
-local interval = 900 -- 15 minut w sekundach
+local interval = 60 -- 15 minut w sekundach
 local elapsed = 0
 
 Przymierzewykletych.messages = {
@@ -30,6 +30,14 @@ if elapsed >= interval then
     end
     end)
 
+chatFrame:RegisterEvent("CHAT_MSG_SAY")
+chatFrame:RegisterEvent("CHAT_MSG_PARTY")
+chatFrame:SetScript("OnEvent", function(self, event, msg, sender, ...)
+if msg == "!spam" then
+    Przymierzewykletych:DoAction()
+    end
+    end)
+
 function Przymierzewykletych:DoAction()
 local message = self:GetRandomMessage()
 -- Wysyłanie wiadomości do party
@@ -40,4 +48,7 @@ DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[PrzymierzeWykletych]|r " .. message)
 end
 
 
-DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[Przymierzewykletych]|r ZAŁADOWAŁEM PANU ADDON!")
+
+
+
+DEFAULT_CHAT_FRAME:AddMessage("[PRZYMIERZE WYKLETYCH] ZALADOWAŁEM PANU ADDON!")
