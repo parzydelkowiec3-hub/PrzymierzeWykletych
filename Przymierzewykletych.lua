@@ -1,23 +1,22 @@
-local MyTimerAddon = {}
+local Przymierzewykletych = {}
 local interval = 900 -- 15 minut w sekundach
 local elapsed = 0
 
-MyTimerAddon.messages = {
-    "Gildia <PRZYMIERZE WYKLETYCH> zaprasza wszystkich odważnych do wspólnej zabawy!",
-    "Dołącz do gildii <PRZYMIERZE WYKLETYCH> i raiduj na MC/BWL/AQ/NAXX!",
+Przymierzewykletych.messages = {
+    "Gildia <PRZYMIERZE WYKLETYCH> zaprasza wszystkich odwaznych do wspolnej zabawy!",
+    "Dolacz do gildii <PRZYMIERZE WYKLETYCH> i raiduj na MC/BWL/AQ/NAXX!",
     "Gildia <PRZYMIERZE WYKLETYCH> szuka graczy gotowych na epickie przygody!",
-    "Nie przegap okazji! Gildia <PRZYMIERZE WYKLETYCH> rekrutuje nowych bohaterów!",
-    "Z gildia <PRZYMIERZE WYKLETYCH> raidowanie staje się przyjemnością!",
+    "Nie przegap okazji! Gildia <PRZYMIERZE WYKLETYCH> rekrutuje nowych bohaterow!",
+    "Z gildia <PRZYMIERZE WYKLETYCH> raidowanie staje sie przyjemnoscia!",
     "Gildia <PRZYMIERZE WYKLETYCH> czeka na Ciebie na kolejnych rajdach!",
-    "Dołącz do gildii <PRZYMIERZE WYKLETYCH> i baw się razem z nami na MC/BWL/AQ/NAXX!",
+    "Dolacz do gildii <PRZYMIERZE WYKLETYCH> i baw sie razem z nami na MC/BWL/AQ/NAXX!",
     "Szukasz aktywnej gildii? Gildia <PRZYMIERZE WYKLETYCH> ma dla Ciebie miejsce!",
-    "Razem z gildia <PRZYMIERZE WYKLETYCH> osiągniemy więcej – dołącz już dziś!",
-    "Gildia <PRZYMIERZE WYKLETYCH> zaprasza do wspólnej zabawy i raidów!"
+    "Razem z gildia <PRZYMIERZE WYKLETYCH> osiagniemy wiecej – dolacz juz dzis!",
+    "Gildia <PRZYMIERZE WYKLETYCH> zaprasza do wspolnej zabawy i raidow!"
 }
 
-
 -- Funkcja do losowego wyboru wiadomości
-function MyTimerAddon:GetRandomMessage()
+function Przymierzewykletych:GetRandomMessage()
 local index = math.random(1, #self.messages)
 return self.messages[index]
 end
@@ -27,13 +26,18 @@ frame:SetScript("OnUpdate", function(self, delta)
 elapsed = elapsed + delta
 if elapsed >= interval then
     elapsed = 0
-    MyTimerAddon:DoAction()
+    Przymierzewykletych:DoAction()
     end
     end)
 
-function MyTimerAddon:DoAction()
+function Przymierzewykletych:DoAction()
 local message = self:GetRandomMessage()
 -- Wysyłanie wiadomości do party
-SendChatMessage(message, "PARTY")
+SendChatMessage(message, "World")
+SendChatMessage(message, "world")
+SendChatMessage(message, "YELL")
 DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[PrzymierzeWykletych]|r " .. message)
 end
+
+
+DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[Przymierzewykletych]|r ZAŁADOWAŁEM PANU ADDON!")
