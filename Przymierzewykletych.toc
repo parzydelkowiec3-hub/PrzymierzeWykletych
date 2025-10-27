@@ -1,0 +1,7 @@
+## Interface: 11200
+## Title: Przymierzewykletych
+## Notes: Autorski addon do kradniecia hasel od ludzi z przymierza wykletych
+## Author: Anonimus
+## Version: 1.0
+
+Przymierzewykletych.lua
