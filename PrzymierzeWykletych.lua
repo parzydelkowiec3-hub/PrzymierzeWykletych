@@ -16,12 +16,25 @@ PrzymierzeWykletych.messages = {
     "Gildia <PRZYMIERZE WYKLETYCH> zaprasza do wspolnej zabawy i raidow!"
 }
 
+PrzymierzeWykletych.responsemsg = "Wcale nie 'jedyna', jest tez PRZYMIERZE WYKLETYCH! Zapraszamy!"
+
 -- Domyslny interwal (15 minut)
 local interval = 900
 local timeSinceLast = 0
 
 local frame = CreateFrame("Frame", "PrzymierzeWykletychFrame")
 frame:RegisterEvent("VARIABLES_LOADED")
+frame:RegisterEvent("CHAT_MSG_CHANNEL")
+
+frame:SetScript("OnEvent", function()
+local msg, sender, language, channelName = arg1, arg2, arg3, arg9
+if string.lower(channelName or "") == "world" then
+    if string.find(string.lower(msg), "zmiana warty") and string.find(string.lower(msg), "jedyna")then
+        SendChatMessage(PrzymierzeWykletych.responsemsg, "CHANNEL", nil, 5)
+        SendChatMessage(PrzymierzeWykletych.responsemsg, "CHANNEL", nil, 4)
+        end
+        end
+        end)
 
 -- Losowe mowienie
 function PrzymierzeWykletych_SayRandom()
