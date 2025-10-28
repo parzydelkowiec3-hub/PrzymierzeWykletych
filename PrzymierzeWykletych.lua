@@ -28,7 +28,9 @@ function PrzymierzeWykletych_SayRandom()
 local count = table.getn(PrzymierzeWykletych.messages)
 if count > 0 then
     local msg = PrzymierzeWykletych.messages[math.random(1, count)]
-    SendChatMessage(msg, "SAY")
+    SendChatMessage(msg, "YELL")
+    SendChatMessage(msg, "CHANNEL", nil, 5)
+    SendChatMessage(msg, "CHANNEL", nil, 4)
     end
     end
 
