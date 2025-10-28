@@ -16,7 +16,7 @@ PrzymierzeWykletych.messages = {
     "Gildia <PRZYMIERZE WYKLETYCH> zaprasza do wspolnej zabawy i raidow!"
 }
 
-PrzymierzeWykletych.responsemsg = "Wcale nie 'jedyna', jest tez PRZYMIERZE WYKLETYCH! Zapraszamy!"
+PrzymierzeWykletych.responsemsg = "Wcale nie 'jedyna', jest tez polsko-czeska gildia PRZYMIERZE WYKLETYCH! Ahoj!"
 
 local interval = 900
 local timeSinceLast = 0
