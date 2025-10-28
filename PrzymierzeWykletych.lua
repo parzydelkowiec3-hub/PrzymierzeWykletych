@@ -18,7 +18,6 @@ PrzymierzeWykletych.messages = {
 
 PrzymierzeWykletych.responsemsg = "Wcale nie 'jedyna', jest tez PRZYMIERZE WYKLETYCH! Zapraszamy!"
 
--- Domyslny interwal (15 minut)
 local interval = 900
 local timeSinceLast = 0
 
@@ -26,66 +25,66 @@ local frame = CreateFrame("Frame", "PrzymierzeWykletychFrame")
 frame:RegisterEvent("VARIABLES_LOADED")
 frame:RegisterEvent("CHAT_MSG_CHANNEL")
 
-frame:SetScript("OnEvent", function()
-local msg, sender, language, channelName = arg1, arg2, arg3, arg9
-if string.lower(channelName or "") == "world" then
-    if string.find(string.lower(msg), "zmiana warty") and string.find(string.lower(msg), "jedyna")then
-        SendChatMessage(PrzymierzeWykletych.responsemsg, "CHANNEL", nil, 5)
-        SendChatMessage(PrzymierzeWykletych.responsemsg, "CHANNEL", nil, 4)
-        end
-        end
-        end)
-
--- Losowe mowienie
-function PrzymierzeWykletych_SayRandom()
-local count = table.getn(PrzymierzeWykletych.messages)
-if count > 0 then
-    local msg = PrzymierzeWykletych.messages[math.random(1, count)]
-    SendChatMessage(msg, "YELL")
-    SendChatMessage(msg, "CHANNEL", nil, 5)
-    SendChatMessage(msg, "CHANNEL", nil, 4)
-    end
-    end
-
-    -- Wypisanie na czat
-    local function Print(msg)
+-- Pomocnicza funkcja do logów
+local function Print(msg)
     if DEFAULT_CHAT_FRAME then
         DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[Przymierze Wykletych]|r " .. msg)
-        end
-        end
+    end
+end
 
-        -- Event po zaladowaniu zmiennych/addonu
-        frame:SetScript("OnEvent", function()
+-- Funkcja losująca i wysyłająca wiadomość
+function PrzymierzeWykletych_SayRandom()
+    local count = #PrzymierzeWykletych.messages
+    if count > 0 then
+        local msg = PrzymierzeWykletych.messages[math.random(1, count)]
+        SendChatMessage(msg, "YELL")
+        SendChatMessage(msg, "CHANNEL", nil, 5)
+        SendChatMessage(msg, "CHANNEL", nil, 4)
+    end
+end
+
+-- Obsługa eventów
+frame:SetScript("OnEvent", function(self, event, arg1, arg2, arg3, arg9)
+    if event == "VARIABLES_LOADED" then
         Print("Addon aktywny. Co " .. interval .. " sekund powie losowy tekst. (/mow, /mowtime <sekundy>)")
         PrzymierzeWykletych_SayRandom()
-        end)
-
-        -- Aktualizacja co frame
-        frame:SetScript("OnUpdate", function()
-        timeSinceLast = timeSinceLast + arg1
-        if timeSinceLast >= interval then
-            timeSinceLast = 0
-            PrzymierzeWykletych_SayRandom()
+    elseif event == "CHAT_MSG_CHANNEL" then
+        local msg, sender, language, channelName = arg1, arg2, arg3, arg9
+        if string.lower(channelName or "") == "world" then
+            local text = string.lower(msg)
+            if string.find(text, "zmiana warty") and string.find(text, "jedyna") then
+                SendChatMessage(PrzymierzeWykletych.responsemsg, "CHANNEL", nil, 5)
+                SendChatMessage(PrzymierzeWykletych.responsemsg, "CHANNEL", nil, 4)
             end
-            end)
-
-        -- Komenda /mow
-        SlashCmdList = SlashCmdList or {}
-        SLASH_MOW1 = "/mow"
-        SlashCmdList["MOW"] = function()
-        PrzymierzeWykletych_SayRandom()
-        Print("Powiedziano losowy tekst.")
         end
+    end
+end)
 
-        -- Komenda /mowtime <sekundy>
-        SLASH_MOWTIME1 = "/mowtime"
-        SlashCmdList["MOWTIME"] = function(msg)
-        local t = tonumber(msg)
-        if t and t > 0 then
-            interval = t
-            timeSinceLast = 0
-            Print("Nowy interwal ustawiony na " .. t .. " sekund.")
-            else
-                Print("Uzycie: /mowtime <sekundy> (np. /mowtime 600)")
-                end
-                end
+-- Aktualizacja co frame
+frame:SetScript("OnUpdate", function(self, elapsed)
+    timeSinceLast = timeSinceLast + elapsed
+    if timeSinceLast >= interval then
+        timeSinceLast = 0
+        PrzymierzeWykletych_SayRandom()
+    end
+end)
+
+-- Komenda /mow
+SlashCmdList["MOW"] = function()
+    PrzymierzeWykletych_SayRandom()
+    Print("Powiedziano losowy tekst.")
+end
+SLASH_MOW1 = "/mow"
+
+-- Komenda /mowtime <sekundy>
+SlashCmdList["MOWTIME"] = function(msg)
+    local t = tonumber(msg)
+    if t and t > 0 then
+        interval = t
+        timeSinceLast = 0
+        Print("Nowy interwal ustawiony na " .. t .. " sekund.")
+    else
+        Print("Uzycie: /mowtime <sekundy> (np. /mowtime 600)")
+    end
+end
+SLASH_MOWTIME1 = "/mowtime"
